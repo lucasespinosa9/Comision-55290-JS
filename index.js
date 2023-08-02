@@ -11,7 +11,7 @@ let sueldoPrimerCuatrimestre = obtenerDatos(`Ingrese sus ganacias para el primer
 let alquilerPrimeraMitad = obtenerDatos(`Ingrese cuanto abona de alquiler en la primera mitad del año`);
 let comidaPrimeraMitad = obtenerDatos(`Ingrese cuanto abona de insumos en la primera mitad del año`);
 let cuentas = obtenerDatos(`Ingrese cuanto abona en cuentas mensualmente`);
-let gastosVariables = obtenerDatos(`Ingrese cuanto destina en empleados`);
+let empleados = obtenerDatos(`Ingrese cuanto destina en empleados`);
 let sueldoSegundoCuatrimestre = obtenerDatos(`Ingrese sus ganancias para el segundo cuatrimestre del año`);
 let alquilerSegundaMitad = obtenerDatos(`Ingrese cuanto abona de alquiler en la segunda mitad del año`);
 let comidaSegundaMitad = obtenerDatos(`Ingrese cuanto abona de insumos en la segunda mitad del año`);
@@ -66,14 +66,14 @@ function crearMeses() {
 
     // Cuarto cuatrimestre
     meses.push(
-        new Mes(sueldoCuartoCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, gastosVariables, "octubre"),
-        new Mes(sueldoCuartoCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, gastosVariables, "noviembre"),
-        new Mes(sueldoCuartoCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, gastosVariables, "diciembre"),
+        new Mes(sueldoCuartoCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, empleados, "octubre"),
+        new Mes(sueldoCuartoCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, empleados, "noviembre"),
+        new Mes(sueldoCuartoCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, empleados, "diciembre"),
     );
 }
 
 // Buscar meses segun el sueldo
-function buscarMeses(ganancia, valor) {
+function buscarMeses(ganancias, valor) {
     return meses.filter(mes => mes.ingreso >= valor);
 }
 
@@ -87,8 +87,8 @@ function calcularGastos(mes) {
 crearMeses();
 
 // Ejemplo de buscarMeses
-const mesesSueldo200000 = buscarMeses("ganancia", 1210000);
-console.log("Meses con ganancia de 1200000 o más:", mesesganacias1200000);
+const mesesGanacias1200000 = buscarMeses("ganancias", 1200000);
+console.log("Meses con ganancias de 1200000 o más:", mesesGanacias1200000);
 
 // Ejemplo de calcularGastos para un mes especifico, en este caso enero
 const gastosEnero = calcularGastos(meses[0]);
