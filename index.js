@@ -1,124 +1,124 @@
-//Ingreso de los datos a sus variables
-function obtenerDatos(mensaje) {
-    let valor;
-    while (isNaN(valor)) {
-        valor = parseInt(prompt(mensaje));
-    }
-    return valor;
-}
+// Obtener elementos del DOM
+const nombre = document.getElementById("nombre")
+const mes = document.getElementById("selecMes")
+const ganancias = document.getElementById("ganancias")
+const alquiler = document.getElementById("alquiler")
+const insumos = document.getElementById("insumos")
+const cuentas = document.getElementById("cuentas")
+const sueldoempleados = document.getElementById("sueldoempleados")
+const btnCalcular = document.getElementById("btnCalcular")
 
-let sueldoPrimerCuatrimestre = obtenerDatos(`Ingrese sus ganacias para el primer cuatrimestre del año`);
-let alquilerPrimeraMitad = obtenerDatos(`Ingrese cuanto abona de alquiler en la primera mitad del año`);
-let comidaPrimeraMitad = obtenerDatos(`Ingrese cuanto abona de insumos en la primera mitad del año`);
-let cuentas = obtenerDatos(`Ingrese cuanto abona en cuentas mensualmente`);
-let empleados = obtenerDatos(`Ingrese cuanto destina en empleados`);
-let sueldoSegundoCuatrimestre = obtenerDatos(`Ingrese sus ganancias para el segundo cuatrimestre del año`);
-let alquilerSegundaMitad = obtenerDatos(`Ingrese cuanto abona de alquiler en la segunda mitad del año`);
-let comidaSegundaMitad = obtenerDatos(`Ingrese cuanto abona de insumos en la segunda mitad del año`);
-let sueldoTercerCuatrimestre = obtenerDatos(`Ingrese sus ganancias para el tercer cuatrimestre del año`);
-let sueldoCuartoCuatrimestre = obtenerDatos(`Ingrese sus ganancias para el cuarto cuatrimestre del año`);
 
-//Clase constructora
+// Clase constructora
 class Mes {
-    constructor(sueldo, alquiler, comida, cuentas, empleados, nombreMes) {
-        this.ingreso = sueldo;
+    constructor(nombre, ganancias, alquiler, insumos, cuentas, sueldoempleados, nombreMes) {
+        this.nombre = nombre
+        this.ingreso = ganancias
         this.egresos = {
             alquiler,
-            comida,
+            insumos,
             cuentas,
-            empleados
+            sueldoempleados
         };
-        this.mes = nombreMes;
+        this.mes = nombreMes
     }
+    
     calcularDiferencia() {
-        return this.ingreso - calcularGastos(this);
+        const gastosTotales = this.calcularGastos();
+        return this.ingreso - gastosTotales
+    }
+
+    calcularGastos() {
+        const { alquiler, insumos, cuentas, sueldoempleados } = this.egresos
+        return alquiler + insumos + cuentas + sueldoempleados
     }
 }
 
-//Array donde se almacenan los meses
-const meses = [];
 
-//Funcion para almacenar los datos en sus respectivos meses de los cuatrimestres
-function crearMeses() {
-    // Primer cuatrimestre
-    meses.push(
-        new Mes(sueldoPrimerCuatrimestre, alquilerPrimeraMitad, comidaPrimeraMitad, cuentas, empleados, "enero"),
-        new Mes(sueldoPrimerCuatrimestre, alquilerPrimeraMitad, comidaPrimeraMitad, cuentas, empleados, "febrero"),
-        new Mes(sueldoPrimerCuatrimestre, alquilerPrimeraMitad, comidaPrimeraMitad, cuentas, empleados, "marzo"),
+//Mostrar los resultados en el DOM
+function mostrarResultado(nombre, mes, ingresos, egresos, diferencia) {
+    const resultadosSection = document.createElement("section")
+    resultadosSection.classList.add("resultados")
 
-    );
+    const nombreH = document.createElement("h2")
+    nombreH.textContent = `Hola ${nombre}`
+    
+    const mesP = document.createElement("p")
+    mesP.textContent = `Veamos el balance del mes de ${mes}`
+    
+    const ingresosP = document.createElement("p")
+    ingresosP.textContent = `Ingresos: $${ingresos}`
+    
+    const egresosP = document.createElement("p")
+    egresosP.textContent = `Egresos: $${egresos}`
+    
+    const diferenciaP = document.createElement("p")
+    diferenciaP.textContent = `La diferencia entre tus ingresos y egresos es de $${diferencia}`
 
-    // Segundo cuatrimestre
-    meses.push(
-        new Mes(sueldoSegundoCuatrimestre, alquilerPrimeraMitad, comidaPrimeraMitad, cuentas, empleados, "abril"),
-        new Mes(sueldoSegundoCuatrimestre, alquilerPrimeraMitad, comidaPrimeraMitad, cuentas, empleados, "mayo"),
-        new Mes(sueldoSegundoCuatrimestre, alquilerPrimeraMitad, comidaPrimeraMitad, cuentas, empleados, "junio"),
+    const datosLocal = document.createElement("h2")
+    datosLocal.textContent = ``
 
-    );
+    // Añadir elementos al section resultados
+    resultadosSection.appendChild(nombreH)
+    resultadosSection.appendChild(mesP)
+    resultadosSection.appendChild(ingresosP)
+    resultadosSection.appendChild(egresosP)
+    resultadosSection.appendChild(diferenciaP)
+    resultadosSection.appendChild(datosLocal)
 
-    // Tercer cuatrimestre
-    meses.push(
-        new Mes(sueldoTercerCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, empleados, "julio"),
-        new Mes(sueldoTercerCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, empleados, "agosto"),
-        new Mes(sueldoTercerCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, empleados, "septiembre"),
-
-    );
-
-    // Cuarto cuatrimestre
-    meses.push(
-        new Mes(sueldoCuartoCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, empleados, "octubre"),
-        new Mes(sueldoCuartoCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, empleados, "noviembre"),
-        new Mes(sueldoCuartoCuatrimestre, alquilerSegundaMitad, comidaSegundaMitad, cuentas, empleados, "diciembre"),
-    );
+    // Insertar el nuevo section debajo del section "contenedorPadre"
+    const contenedorPadre = document.querySelector(".contenedorPadre")
+    contenedorPadre.parentNode.insertBefore(resultadosSection, contenedorPadre.nextSibling)
 }
 
-// Buscar meses segun el sueldo
-function buscarMeses(ganancias, valor) {
-    return meses.filter(mes => mes.ingreso >= valor);
+
+// Evento click en el boton Calcular
+function obtenerValor() {
+    // Limpiar datos del section
+    const resultadosAnteriores = document.querySelector(".resultados")
+    resultadosAnteriores ? resultadosAnteriores.remove() : null
+    
+    const valorNombre = nombre.value
+    const valorMes = mes.value
+    const valorGanancias = parseFloat(ganancias.value)
+    const valorAlquiler = parseFloat(alquiler.value)
+    const valorInsumos = parseFloat(insumos.value)
+    const valorCuentas = parseFloat(cuentas.value)
+    const valorSueldoempleados = parseFloat(sueldoempleados.value)
+
+    const mesSeleccionado = new Mes(valorNombre, valorGanancias, valorAlquiler, valorInsumos, valorCuentas, valorSueldoempleados, valorMes)
+
+    const ingresosTotales = parseFloat(valorGanancias)
+    const egresosTotales = parseFloat(valorAlquiler) + parseFloat(valorInsumos) + parseFloat(valorCuentas) + parseFloat(valorSueldoempleados)
+    const diferenciaMes = mesSeleccionado.calcularDiferencia()
+
+    localStorage.setItem(`mesDatos-${valorMes}`, JSON.stringify(mesSeleccionado))
+
+    mostrarResultado(valorNombre, valorMes, ingresosTotales, egresosTotales, diferenciaMes)
 }
 
-// Calcular los gastos totales de un mes
-function calcularGastos(mes) {
-    const { alquiler, comida, cuentas, empleados } = mes.egresos;
-    return alquiler + comida + cuentas + empleados;
+//Listener al boton Calcular
+btnCalcular.addEventListener("click", function (event) {
+    event.preventDefault()
+    obtenerValor()
+})
+
+
+// Botones para modo Claro-Oscuro del body
+let btn1 = document.getElementById("btnActionClaro")
+btn1.addEventListener("click", modoClaro)
+
+function modoClaro() {
+    const body = document.body
+    body.style.backgroundImage = 'linear-gradient(to right, #ed6ea0 0%, #ec8c69 100%)'
+    body.style.color = '#000000'
 }
 
-// Llamar a la funcion para crear los meses
-crearMeses();
+let btn2 = document.getElementById("btnActionOscuro")
+btn2.addEventListener("click", modoOscuro)
 
-// Ejemplo de buscarMeses
-const mesesGanacias1200000 = buscarMeses("ganancias", 1200000);
-console.log("Meses con ganancias de 1200000 o más:", mesesGanacias1200000);
-
-// Ejemplo de calcularGastos para un mes especifico, en este caso enero
-const gastosEnero = calcularGastos(meses[0]);
-console.log("Gastos totales de enero:", gastosEnero);
-
-function diferenciaCuatrimestre(mesesCuatrimestre) {
-    let ingresosTotal = mesesCuatrimestre.reduce((total, mes) => total + mes.ingreso, 0);
-    let egresosTotal = mesesCuatrimestre.reduce((total, mes) => total + calcularGastos(mes), 0);
-    return ingresosTotal - egresosTotal;
+function modoOscuro() {
+    const body = document.body
+    body.style.backgroundImage = 'linear-gradient(15deg, #13547a 0%, #80d0c7 100%)'
+    body.style.color = '#FFFFFF'
 }
-
-// Diferencia de los cuatrimestres
-const primerCuatrimestre = meses.slice(0, 3);
-const diferenciaPrimerCuatrimestre = diferenciaCuatrimestre(primerCuatrimestre);
-console.log("Diferencia del primer cuatrimestre:", diferenciaPrimerCuatrimestre);
-
-const segundoCuatrimestre = meses.slice(3, 6);
-const diferenciaSegundoCuatrimestre = diferenciaCuatrimestre(segundoCuatrimestre);
-console.log("Diferencia del segundo cuatrimestre:", diferenciaSegundoCuatrimestre);
-
-const tercerCuatrimestre = meses.slice(6, 9);
-const diferenciaTercerCuatrimestre = diferenciaCuatrimestre(tercerCuatrimestre);
-console.log("Diferencia del tercer cuatrimestre:", diferenciaTercerCuatrimestre);
-
-const cuartoCuatrimestre = meses.slice(9, 12);
-const diferenciaCuartoCuatrimestre = diferenciaCuatrimestre(cuartoCuatrimestre);
-console.log("Diferencia del cuarto cuatrimestre:", diferenciaCuartoCuatrimestre);
-
-// Diferencia de cada mes
-meses.forEach(mes => {
-    const diferenciaMes = mes.calcularDiferencia();
-    console.log(`Diferencia de ${mes.mes}:`, diferenciaMes);
-});

@@ -1,11 +1,91 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    
+}
+
+body {
+    background-image: linear-gradient(to right, #edeb6e 0%, #c4542c 100%);
 }
 
 h1{
+    
     display: flex;
     justify-content: center;
+    padding: 40px;
+font-size: 45px;
+background-color:#c4542c
+}
+
+.contenedorPadre{
+    display: flex;
+    justify-content: center;
+
+}
+.Form{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 3rem;
+
+    border: solid 4px black;
     padding: 2rem;
-} 
+    width: fit-content;
+}
+
+.datosForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inputMontos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 25vw;
+}
+
+.agPadding{
+    margin: 1rem;
+    width: 20vw;
+}
+
+.detalles{
+    width: 15vw;
+    text-align: center;
+}
+
+.botones{
+    display: flex;
+    justify-content: center;
+    margin: 4rem;
+}
+
+.btnClaroOscuro{
+    margin: 2rem;
+    background-color: transparent;
+    border: 0px;
+}
+
+.btmSumbit{
+    width: 10rem !important;
+    padding: 3rem;
+}
+
+
+.modoClaroOscuro {
+    width: 3rem;
+}
+
+.resultados{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 2rem;
+    font-weight: bolder;
+}
