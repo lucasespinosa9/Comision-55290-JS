@@ -3,59 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
     
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="shortcut icon" href="img/JavaScript-logo.png" type="image/x-icon">
-    <title>JS | Coder House</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Poppins:wght@100;200;300;400&family=Raleway:ital,wght@0,300;1,100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/style.css">
+    <title>Clima</title>
 </head>
 
 <body>
-    <main>
-        <h1>Lleva las cuentas de tu negocio </h1>
-        <section class="contenedorPadre">
-            <div class="Form">
-                <input type="text" placeholder="Ingresa tu nombre" id="nombre" class="agPadding detalles">
-                <h2 class="agPadding detalles">¿Sobre que mes te gustaría hacer el balance?</h2>
-                <form action="" class="datosForm">
-                    <select id="selecMes" name="mes" class="agPadding detalles">
-                        <option value="Enero">Enero</option>
-                        <option value="Febrero">Febrero</option>
-                        <option value="Marzo">Marzo</option>
-                        <option value="Abril">Abril</option>
-                        <option value="Mayo">Mayo</option>
-                        <option value="Junio">Junio</option>
-                        <option value="Julio">Julio</option>
-                        <option value="Agosto">Agosto</option>
-                        <option value="Septiembre">Septiembre</option>
-                        <option value="Octubre">Octubre</option>
-                        <option value="Noviembre">Noviembre</option>
-                        <option value="Diciembre">Diciembre</option>
-                    </select>
-                    <div class="">
-                        <p>Ingresa tus ganacias:</p>
-                        <input type="number" name="" id="ganancias" placeholder=" $ARS" class="agPadding">
-                        <p>Ingresa cuanto abonas en alquiler:</p>
-                        <input type="number" name="" id="alquiler" placeholder=" $ARS" class="agPadding">
-                        <p>Ingresa cuanto abonas en insumos:</p>
-                        <input type="number" name="" id="insumos" placeholder=" $ARS" class="agPadding">
-                        <p>Ingresa cuanto abonas en cuentas:</p>
-                        <input type="number" name="" id="cuentas" placeholder=" $ARS" class="agPadding">
-                        <p>Ingresa cuanto destinas a empleados:</p>
-                        <input type="number" name="" id="sueldoempleados" placeholder=" $ARS" class="agPadding">
-                        <p><button type="submit" id="btnCalcular" class="btnSumbit">Calcular</button></p>
-                    </div>
-                </form>
+    <div class="contenedor">
+        <div class="cuadroBusqueda">
+            <i class="fa-solid fa-location-dot"></i>
+            <input type="text" placeholder="Ingresa tu ubicación...">
+            <button class="fa-solid fa-magnifying-glass"></button>
+        </div>
+
+        <div class="notFound">
+            <img src="img/404.png" alt="Error 404" class="err">
+            <p>Uy! Ubicación invalida.</p>
+        </div>
+        <div class="cuadroClima">
+            <img src="" alt="">
+            <p class="temperatura"></p>
+            <p class="descripcion"></p>
+        </div>
+        <div class="detallesClima">
+            <div class="humedad">
+                <i class="fa-solid fa-water"></i>
+                <div class="texto"></div>
+                <div class="texto">
+                    <span></span>
+                    <p>Humedad</p>
+                </div>
             </div>
-        </section>
+            <div class="viento">
+                <i class="fa-solid fa-wind"></i>
+                <div class="texto"></div>
+                <div class="texto">
+                    <span></span>
+                    <p>Viento</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <script  src="index.js"></script>
 
+
+
+    <script src="https://kit.fontawesome.com/7c8801c017.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

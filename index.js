@@ -1,124 +1,182 @@
-// Obtener elementos del DOM
-const nombre = document.getElementById("nombre")
-const mes = document.getElementById("selecMes")
-const ganancias = document.getElementById("ganancias")
-const alquiler = document.getElementById("alquiler")
-const insumos = document.getElementById("insumos")
-const cuentas = document.getElementById("cuentas")
-const sueldoempleados = document.getElementById("sueldoempleados")
-const btnCalcular = document.getElementById("btnCalcular")
+//Selección los elementos del DOM
+const contenedor = document.querySelector(".contenedor")
+const busqueda = document.querySelector(".cuadroBusqueda button")
+const cuadroClima = document.querySelector(".cuadroClima")
+const detallesClima = document.querySelector(".detallesClima")
+const err404 = document.querySelector(".notFound")
 
+//Varible para la tostada anterior
+let tostadaPrevia = null;
 
-// Clase constructora
-class Mes {
-    constructor(nombre, ganancias, alquiler, insumos, cuentas, sueldoempleados, nombreMes) {
-        this.nombre = nombre
-        this.ingreso = ganancias
-        this.egresos = {
-            alquiler,
-            insumos,
-            cuentas,
-            sueldoempleados
-        };
-        this.mes = nombreMes
+//Objeto para las tostadas
+const tostadaEnComun = {
+    duration: 3500,
+    destination: "https://openweathermap.org/",
+    newWindow: true,
+    className: "toastifyClase",
+    stopOnFocus: true,
+    style: {
+        position: "fixed",
+        bottom: "0",
+        left: "50%",
+        color: "#ffff",
+        fontFamily: "sans-serif",
+        fontSize: "1.5rem",
+        background: "#4C4D33",
+        fontWeight: "500",
+        padding: "1rem",
+        borderRadius: "16px",
+        margin: "2rem",
+        top: "51rem",
+        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
+    },
+    onClick: function () { },
+};
+
+//Traducción de las descripciones del clima.
+const descripcionEspañol = {
+    "Clear": "Despejado",
+    "Rain": "Lluvia",
+    "Snow": "Nieve",
+    "Clouds": "Nublado",
+    "Haze": "Neblina",
+    "Mist": "Neblina",
+    "Thunderstorm": "Tormenta eléctrica",
+    "Smoke": "Smog"
+};
+
+//Evento click al botón de búsqueda
+busqueda.addEventListener("click", () => {
+    const APIKey = "302f5c28f14f615bc8c8928d9b7dcbf8"
+    const ciudad = document.querySelector(".cuadroBusqueda input").value
+
+    if (ciudad === "")
+        return
+
+//Ocultar la tostada previa.
+    if (tostadaPrevia) {
+        tostadaPrevia.hideToast();
     }
-    
-    calcularDiferencia() {
-        const gastosTotales = this.calcularGastos();
-        return this.ingreso - gastosTotales
-    }
 
-    calcularGastos() {
-        const { alquiler, insumos, cuentas, sueldoempleados } = this.egresos
-        return alquiler + insumos + cuentas + sueldoempleados
-    }
-}
+//API del clima.
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&units=metric&appid=${APIKey}`)
+        .then(response => response.json()).then(json => {
 
+//Manejo de errores.
+            if (json.cod === "404") {
+                contenedor.style.height = "560px";
+                cuadroClima.style.display = "none";
+                detallesClima.style.display = "none";
+                err404.style.display = "block";
+                err404.classList.add("fadeIn");
+                tostadaPrevia = Toastify({
+                    text: "¡Intenta otra vez!",
+                    ...tostadaEnComun,
+                }).showToast();
+                return;
+            }
 
-//Mostrar los resultados en el DOM
-function mostrarResultado(nombre, mes, ingresos, egresos, diferencia) {
-    const resultadosSection = document.createElement("section")
-    resultadosSection.classList.add("resultados")
+            err404.style.display = "none"
+            err404.classList.remove("fadeIn")
 
-    const nombreH = document.createElement("h2")
-    nombreH.textContent = `Hola ${nombre}`
-    
-    const mesP = document.createElement("p")
-    mesP.textContent = `Veamos el balance del mes de ${mes}`
-    
-    const ingresosP = document.createElement("p")
-    ingresosP.textContent = `Ingresos: $${ingresos}`
-    
-    const egresosP = document.createElement("p")
-    egresosP.textContent = `Egresos: $${egresos}`
-    
-    const diferenciaP = document.createElement("p")
-    diferenciaP.textContent = `La diferencia entre tus ingresos y egresos es de $${diferencia}`
+            const img = document.querySelector(".cuadroClima img")
+            const temperatura = document.querySelector(".cuadroClima .temperatura")
+            const descripcion = document.querySelector(".cuadroClima .descripcion")
+            const humedad = document.querySelector(".detallesClima .humedad span")
+            const viento = document.querySelector(".detallesClima .viento span")
 
-    const datosLocal = document.createElement("h2")
-    datosLocal.textContent = ``
+//API de zona horaria.
+            fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=DORTG5OB4IMR&format=json&by=position&lat=${json.coord.lat}&lng=${json.coord.lon}`)
+                .then(response => response.json())
+                .then(timezoneData => {
+                    const horaCiudad = new Date(timezoneData.formatted).getHours();
+                    const noche = horaCiudad >= 20 || horaCiudad <= 6;
 
-    // Añadir elementos al section resultados
-    resultadosSection.appendChild(nombreH)
-    resultadosSection.appendChild(mesP)
-    resultadosSection.appendChild(ingresosP)
-    resultadosSection.appendChild(egresosP)
-    resultadosSection.appendChild(diferenciaP)
-    resultadosSection.appendChild(datosLocal)
+//Cambiar imagen según el clima y la hora.
+                    switch (json.weather[0].main) {
+                        case "Clear":
+                            if (noche) {
+                                img.src = "img/moon.png";
+                            } else {
+                                img.src = "img/clear.png";
+                            }
+                            break;
 
-    // Insertar el nuevo section debajo del section "contenedorPadre"
-    const contenedorPadre = document.querySelector(".contenedorPadre")
-    contenedorPadre.parentNode.insertBefore(resultadosSection, contenedorPadre.nextSibling)
-}
+                        case "Rain":
+                            img.src = "img/rain.png";
+                            break;
 
+                        case "Thunderstorm":
+                            img.src = "img/thunderstorm.png";
+                            break;
 
-// Evento click en el boton Calcular
-function obtenerValor() {
-    // Limpiar datos del section
-    const resultadosAnteriores = document.querySelector(".resultados")
-    resultadosAnteriores ? resultadosAnteriores.remove() : null
-    
-    const valorNombre = nombre.value
-    const valorMes = mes.value
-    const valorGanancias = parseFloat(ganancias.value)
-    const valorAlquiler = parseFloat(alquiler.value)
-    const valorInsumos = parseFloat(insumos.value)
-    const valorCuentas = parseFloat(cuentas.value)
-    const valorSueldoempleados = parseFloat(sueldoempleados.value)
+                        case "Smoke":
+                            img.src = "img/smog.png";
+                            break;
+                            
+                        case "Snow":
+                            img.src = "img/snow.png";
+                            break;
 
-    const mesSeleccionado = new Mes(valorNombre, valorGanancias, valorAlquiler, valorInsumos, valorCuentas, valorSueldoempleados, valorMes)
+                        case "Clouds":
+                            if (noche) {
+                                img.src = "img/moonWclouds.png";
+                            } else {
+                                img.src = "img/clouds.png";
+                            }
+                            break;
 
-    const ingresosTotales = parseFloat(valorGanancias)
-    const egresosTotales = parseFloat(valorAlquiler) + parseFloat(valorInsumos) + parseFloat(valorCuentas) + parseFloat(valorSueldoempleados)
-    const diferenciaMes = mesSeleccionado.calcularDiferencia()
+                        case "Haze":
+                            img.src = "img/hazehazeMist.png";
+                            break;
+                        
+                        case "Mist":
+                            img.src = "img/hazeMist.png";
+                            break;
 
-    localStorage.setItem(`mesDatos-${valorMes}`, JSON.stringify(mesSeleccionado))
+                        default:
+                            img.src = "";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al obtener la zona horaria:", error);
+                });
 
-    mostrarResultado(valorNombre, valorMes, ingresosTotales, egresosTotales, diferenciaMes)
-}
+//Mostrar clima en DOM
+            temperatura.innerHTML = `${parseInt(json.main.temp)}<span>°C</span>`
+            const descripcionIngles = json.weather[0].main;
+            const descripcionTraducida = descripcionEspañol[descripcionIngles] || descripcionIngles;
 
-//Listener al boton Calcular
-btnCalcular.addEventListener("click", function (event) {
-    event.preventDefault()
-    obtenerValor()
+            descripcion.innerHTML = descripcionTraducida;
+            humedad.innerHTML = `${json.main.humidity}%`
+            viento.innerHTML = `${parseInt(json.wind.speed)}Km/h`
+
+            cuadroClima.style.display = ""
+            detallesClima.style.display = ""
+            cuadroClima.classList.add("fadeIn")
+            detallesClima.classList.add("fadeIn")
+            contenedor.style.height = "650px"
+
+//Mensaje para la tostada
+            let textoToast
+            if (parseInt(json.main.temp) <= 20) {
+                textoToast = "La temperatura es baja. ¡Abrígate!";
+            } else {
+                if (json.weather[0].main === "Rain") {
+                    textoToast = "Está lloviendo. ¡Lleva un paraguas!";
+                } else if (json.weather[0].main === "Thunderstorm") {
+                    textoToast = "Hay tormenta. ¡Tené cuidado!";
+                } else if(json.weather[0].main === "Smoke") {
+                    textoToast = "Hay contaminación en el aire, usa barbijo.";
+                } 
+                else {
+                    textoToast = "La temperatura es agradable. ¡Disfruta!";
+                }
+            }
+
+            tostadaPrevia = Toastify({
+                text: textoToast,
+                ...tostadaEnComun,
+            }).showToast();
+        })
 })
-
-
-// Botones para modo Claro-Oscuro del body
-let btn1 = document.getElementById("btnActionClaro")
-btn1.addEventListener("click", modoClaro)
-
-function modoClaro() {
-    const body = document.body
-    body.style.backgroundImage = 'linear-gradient(to right, #ed6ea0 0%, #ec8c69 100%)'
-    body.style.color = '#000000'
-}
-
-let btn2 = document.getElementById("btnActionOscuro")
-btn2.addEventListener("click", modoOscuro)
-
-function modoOscuro() {
-    const body = document.body
-    body.style.backgroundImage = 'linear-gradient(15deg, #13547a 0%, #80d0c7 100%)'
-    body.style.color = '#FFFFFF'
-}
