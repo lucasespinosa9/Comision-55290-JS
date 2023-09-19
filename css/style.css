@@ -1,184 +1,150 @@
-*{
+* {
     margin: 0;
     padding: 0;
-    border: 0;
-    outline: none;
-    box-sizing: border-box;
+    box-sizing: border-box; }
+
+
+:root{
+    --verde:#00A149;
+    --blanco:#fff;
+    --rojo:#881014;
+    --oscuro:#000;
+    --titulos:'Arima Madurai',cursive;
+    --parrafos:'Mulish', sans-serif;
 }
 
-body{
-    height: 100vh;
+
+.encabezado{
+    background-image: url(../assets/img/oktubre.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.logo{
+    font-size: 100px;
+}
+.logo img{
+    width: 200px;
+    height: 200px;
     display: flex;
-    align-items: center;
+
+;
+}
+h1{
+    display: flex;
     justify-content: center;
-    background: #5c6334;
+
+}
+nav{
+    color: #000;
+}
+
+*,*::after, *::before{
+    box-sizing: inherit;
 }
 
 .contenedor{
-    position: relative;
-    width: 400px;
-    height: 105px;
-    background: #ffff;
-    padding: 28px 32px;
-    overflow: hidden;
-    border-radius: 18px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    transition: 0.6s ease-out;
+    max-width: 120rem;
+    margin: 0 auto;
+    width: 95%;
+}
+h1,h2{
+    font-family: var(--titulos);
+}
+h3, p, a{
+    font-family: var(--parrafos);
 }
 
-.cuadroBusqueda{
+img{
     width: 100%;
-    height: min-content;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
-
-.cuadroBusqueda input{
-    color: rgb(21, 16, 87);
-    width: 80%;
-    font-size: 24px;
-    font-weight: 500;
-    text-transform: uppercase;
-    padding-left: 32px;
+.verde{
+    color: var(--verde);
 }
-
-.cuadroBusqueda input::placeholder{
-    font-size: 20px;
-    font-weight: 500;
-    color: lightskyblue;
-    text-transform: none;
+.rojo{
+    color: var(--rojo);
 }
-
-.cuadroBusqueda button{
-    cursor: pointer;
-    width: 50px;
-    height: 50px;
-    color: lightskyblue;
-    background: #adb18a;
-    border-radius: 50%;
-    font-size: 22px;
-    transition: 0.4s ease;
-}
-
-.cuadroBusqueda button:hover{
-    color: #ffff;
-    background: #060a2e;
-}
-
-.cuadroClima{
-    text-align: center;
-    height: max-content;
-}
-
-.cuadroClima img{
-    width: 60%;
-    margin-top: 30px;
-}
-
-.cuadroClima .temperatura{
-    position: relative;
-    color: #180a41;
-    font-size: 4rem;
-    font-weight: 800;
-    margin-top: 30px;
-    margin-left: -16px;
-}
-
-.cuadroClima .temperatura span{
-    position: absolute;
-    margin-left: 4px;
-    font-size: 1.5rem;
-}
-
-.cuadroClima .descricion{
-    color: rgb(9, 9, 78);
-    font-size: 22px;
-    font-weight: 500;
-    text-transform: none;
-}
-
-.detallesClima{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-}
-
-.detallesClima .humedad .detallesClima .viento{
-    display: flex;
-    align-items: center;
-    width: 50%;
-    height: 100px;
-}
-
-.detallesClima .humedad{
-    padding-left: 20px;
-    justify-content: flex-end;
-}
-
-.detallesClima .viento{
-    padding-right: 20px;
-    justify-content: flex-start;
-}
-
-.detallesClima i{
-    color: #0f053d;
-    font-size: 26px;
-    margin-right: 10px;
-    margin-top: 6px;
-}
-
-.detallesClima{
-    color: #111147;
-    font-size: 22px;
-    font-weight: 500;
-}
-
-.detallesClima p{
-    color: #0e0a41;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.notFound{
-    width: 100%;
-    text-align: center;
-    margin-top: 50px;
-    scale: 0;
-    opacity: 0;
+.ocultar{
     display: none;
 }
+.btn-cerrar{
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--blanco);
+    position: absolute;
+    top: 0;
+    right: 50px;
+    user-select: none;
 
-.notFound img{
-    width: 100%;
+}
+.pantalla-completa{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,.5);
+    z-index: 4;
 }
 
-.notFound p{
-    color: #150941;
-    font-size: 22px;
-    font-weight: 500;
-    margin-top: 12px;
-}
+@keyframes desplazamiento {
+    0%{
+        transform: translateX(100%);
+    }
 
-.cuadroClima .detallesClima{
-    scale: 0;
-    opacity: 0;
-}
-
-.fadeIn{
-    animation: 0.5s fadeIn forwards;
-    animation-delay: 0.5s;
-}
-
-@keyframes fadeIn{
-    to{
-        scale: 1;
-        opacity: 1;
+    100%{
+        transform:translateX(0);
     }
 }
 
-.toastifyClase{
-    top: 51rem !important;
-    transform: translateX(-58%) !important;
+.btn-cerrar:hover{
+    cursor: pointer;
+}
+
+.btn{
+    text-decoration: none;
+    color: var(--blanco);
+    font-size: 2rem;
+    text-transform: capitalize;
+    padding: 1rem 5rem;
+    border-radius: 5px;
+    transition: all .3s ease-in-out;
+
+}
+.bordes{
+    border: 4px solid var(--blanco);
+}
+
+
+.bordes:hover{
+color: var(--verde);
+background-color: var(--blanco);
+}
+.btn-rojo{
+background-color: var(--rojo);
+font-weight: bold;
+display: inline-block;
+margin-top: 2rem;
+margin-bottom: 2rem;
+}
+.btn-verde{
+background-color: var(--verde);
+border: none;
+display: inline-block;
+margin-bottom: 2rem;
+font-family: var(--parrafos);
+}
+.btn-verde:hover{
+background-color: var(--rojo);
+}
+/*encabezado*/
+.contenedor-navegacion{
+background-color: var(--oscuro);
+position: relative;
+z-index: 5;
+
+}
+.contenido-navegacion{
+display: flex;
+align-items: center;
+justify-content: space-between;
 }

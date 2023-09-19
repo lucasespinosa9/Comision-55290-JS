@@ -1,182 +1,114 @@
-//Selección los elementos del DOM
-const contenedor = document.querySelector(".contenedor")
-const busqueda = document.querySelector(".cuadroBusqueda button")
-const cuadroClima = document.querySelector(".cuadroClima")
-const detallesClima = document.querySelector(".detallesClima")
-const err404 = document.querySelector(".notFound")
+const menu = document.querySelector('.hamburguesa');
+const navegacion = document.querySelector('.navegacion');
+const imagenes = document.querySelectorAll('img');
+const btnTodos = document.querySelector('.todos');
+const btnBotellas = document.querySelector('.botellas');
+const btnLatas = document.querySelector('.latas');
+const btnVasos = document.querySelector('.vasos');
+const btnGrowlers = document.querySelector('.growlers');
+const contenedorCervezas = document.querySelector('.cervezas');
+document.addEventListener('DOMContentLoaded',()=>{
+    eventos();
+    cervezas();
+});
 
-//Varible para la tostada anterior
-let tostadaPrevia = null;
+const eventos = () =>{
+    menu.addEventListener('click',abrirMenu);
+}
 
-//Objeto para las tostadas
-const tostadaEnComun = {
-    duration: 3500,
-    destination: "https://openweathermap.org/",
-    newWindow: true,
-    className: "toastifyClase",
-    stopOnFocus: true,
-    style: {
-        position: "fixed",
-        bottom: "0",
-        left: "50%",
-        color: "#ffff",
-        fontFamily: "sans-serif",
-        fontSize: "1.5rem",
-        background: "#4C4D33",
-        fontWeight: "500",
-        padding: "1rem",
-        borderRadius: "16px",
-        margin: "2rem",
-        top: "51rem",
-        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
-    },
-    onClick: function () { },
-};
+const abrirMenu = () =>{
+    navegacion.classList.remove('ocultar');
+    botonCerrar();
+}
 
-//Traducción de las descripciones del clima.
-const descripcionEspañol = {
-    "Clear": "Despejado",
-    "Rain": "Lluvia",
-    "Snow": "Nieve",
-    "Clouds": "Nublado",
-    "Haze": "Neblina",
-    "Mist": "Neblina",
-    "Thunderstorm": "Tormenta eléctrica",
-    "Smoke": "Smog"
-};
+const botonCerrar = () =>{
+    const btnCerrar = document.createElement('p');
+    const overlay  = document.createElement('div');
+    overlay.classList.add('pantalla-completa');
+    const body = document.querySelector('body');
+    if(document.querySelectorAll('.pantalla-completa').length > 0) return;
+    body.appendChild(overlay);
+    btnCerrar.textContent = 'x';
+    btnCerrar.classList.add('btn-cerrar');
 
-//Evento click al botón de búsqueda
-busqueda.addEventListener("click", () => {
-    const APIKey = "302f5c28f14f615bc8c8928d9b7dcbf8"
-    const ciudad = document.querySelector(".cuadroBusqueda input").value
 
-    if (ciudad === "")
-        return
+    navegacion.appendChild(btnCerrar);   
+    cerrarMenu(btnCerrar,overlay);
+    
+}
 
-//Ocultar la tostada previa.
-    if (tostadaPrevia) {
-        tostadaPrevia.hideToast();
+const observer = new IntersectionObserver((entries, observer)=>{
+        entries.forEach(entry=>{
+            if(entry.isIntersecting){
+                const imagen = entry.target;
+                imagen.src = imagen.dataset.src;
+                observer.unobserve(imagen);
+            }
+        }); 
+});
+
+
+imagenes.forEach(imagen=>{
+
+    observer.observe(imagen);
+});
+
+const cerrarMenu = (boton, overlay) =>{
+    boton.addEventListener('click',()=>{
+        navegacion.classList.add('ocultar');
+        overlay.remove();
+        boton.remove();
+    });
+
+    overlay.onclick = function(){
+        overlay.remove();
+        navegacion.classList.add('ocultar');  
+        boton.remove();
     }
+}
 
-//API del clima.
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&units=metric&appid=${APIKey}`)
-        .then(response => response.json()).then(json => {
+const cervezas = () =>{
+    let cervezasArreglo = [];
+    const cervezas = document.querySelectorAll('.cervezas');
 
-//Manejo de errores.
-            if (json.cod === "404") {
-                contenedor.style.height = "560px";
-                cuadroClima.style.display = "none";
-                detallesClima.style.display = "none";
-                err404.style.display = "block";
-                err404.classList.add("fadeIn");
-                tostadaPrevia = Toastify({
-                    text: "¡Intenta otra vez!",
-                    ...tostadaEnComun,
-                }).showToast();
-                return;
-            }
+    cervezas.forEach(cervezas=> cervezasArreglo = [...cervezasArreglo,cervezas]);
 
-            err404.style.display = "none"
-            err404.classList.remove("fadeIn")
+    const botellas = cervezasArreglo.filter(botellas=> botellas.getAttribute('data-cervezas') === 'botellas');
+    const latas = cervezasArreglo.filter(latas => latas.getAttribute('data-cervezas') === 'latas');
+    const vasos = cervezasArreglo.filter(vasos => vasos.getAttribute('data-cervezas') === 'vasos');
+    const growlers = cervezasArreglo.filter(growlers=> growlers.getAttribute('data-cervezas') === 'growlers');
 
-            const img = document.querySelector(".cuadroClima img")
-            const temperatura = document.querySelector(".cuadroClima .temperatura")
-            const descripcion = document.querySelector(".cuadroClima .descripcion")
-            const humedad = document.querySelector(".detallesClima .humedad span")
-            const viento = document.querySelector(".detallesClima .viento span")
+    mostrarCervezas(botellas, latas, vasos, growlers, cervezasArreglo);
 
-//API de zona horaria.
-            fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=DORTG5OB4IMR&format=json&by=position&lat=${json.coord.lat}&lng=${json.coord.lon}`)
-                .then(response => response.json())
-                .then(timezoneData => {
-                    const horaCiudad = new Date(timezoneData.formatted).getHours();
-                    const noche = horaCiudad >= 20 || horaCiudad <= 6;
+}
 
-//Cambiar imagen según el clima y la hora.
-                    switch (json.weather[0].main) {
-                        case "Clear":
-                            if (noche) {
-                                img.src = "img/moon.png";
-                            } else {
-                                img.src = "img/clear.png";
-                            }
-                            break;
+const mostrarCervezas = (botellas, latas, vasos, growlers, ) =>{
+    btnBotellas.addEventListener('click', ()=>{
+        limpiarHtml(contenedorCervezas);
+        botellas.forEach(botellas=> contenedorCervezas.appendChild(botellas));
+    });
 
-                        case "Rain":
-                            img.src = "img/rain.png";
-                            break;
+    btnLatas.addEventListener('click', ()=>{
+        limpiarHtml(contenedorCervezas);
+        latas.forEach(latas=> contenedorCervezas.appendChild(latas));
+    });
 
-                        case "Thunderstorm":
-                            img.src = "img/thunderstorm.png";
-                            break;
+    btnVasos.addEventListener('click', ()=>{
+        limpiarHtml(contenedorCervezas);
+    vasos.forEach(vasos=> contenedorCervezas.appendChild(vasos));
+    });
+    btnGrowlers.addEventListener('click', ()=>{
+        limpiarHtml(contenedorCervezas);
+        growlers.forEach(growlers=> contenedorCervezas.appendChild(growlers));
+    });
+    btnTodos.addEventListener('click',()=>{
+        limpiarHtml(contenedorCervezas);
+        todos.forEach(todos=> contenedorCervezas.appendChild(todos));
+    });
+}
 
-                        case "Smoke":
-                            img.src = "img/smog.png";
-                            break;
-                            
-                        case "Snow":
-                            img.src = "img/snow.png";
-                            break;
-
-                        case "Clouds":
-                            if (noche) {
-                                img.src = "img/moonWclouds.png";
-                            } else {
-                                img.src = "img/clouds.png";
-                            }
-                            break;
-
-                        case "Haze":
-                            img.src = "img/hazehazeMist.png";
-                            break;
-                        
-                        case "Mist":
-                            img.src = "img/hazeMist.png";
-                            break;
-
-                        default:
-                            img.src = "";
-                    }
-                })
-                .catch(error => {
-                    console.error("Error al obtener la zona horaria:", error);
-                });
-
-//Mostrar clima en DOM
-            temperatura.innerHTML = `${parseInt(json.main.temp)}<span>°C</span>`
-            const descripcionIngles = json.weather[0].main;
-            const descripcionTraducida = descripcionEspañol[descripcionIngles] || descripcionIngles;
-
-            descripcion.innerHTML = descripcionTraducida;
-            humedad.innerHTML = `${json.main.humidity}%`
-            viento.innerHTML = `${parseInt(json.wind.speed)}Km/h`
-
-            cuadroClima.style.display = ""
-            detallesClima.style.display = ""
-            cuadroClima.classList.add("fadeIn")
-            detallesClima.classList.add("fadeIn")
-            contenedor.style.height = "650px"
-
-//Mensaje para la tostada
-            let textoToast
-            if (parseInt(json.main.temp) <= 20) {
-                textoToast = "La temperatura es baja. ¡Abrígate!";
-            } else {
-                if (json.weather[0].main === "Rain") {
-                    textoToast = "Está lloviendo. ¡Lleva un paraguas!";
-                } else if (json.weather[0].main === "Thunderstorm") {
-                    textoToast = "Hay tormenta. ¡Tené cuidado!";
-                } else if(json.weather[0].main === "Smoke") {
-                    textoToast = "Hay contaminación en el aire, usa barbijo.";
-                } 
-                else {
-                    textoToast = "La temperatura es agradable. ¡Disfruta!";
-                }
-            }
-
-            tostadaPrevia = Toastify({
-                text: textoToast,
-                ...tostadaEnComun,
-            }).showToast();
-        })
-})
+const limpiarHtml = (contenedor) =>{
+    while(contenedor.firstChild){
+        contenedor.removeChild(contenedor.firstChild);
+    }
+}

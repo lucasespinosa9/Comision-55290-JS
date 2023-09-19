@@ -1,0 +1,38 @@
+[
+    {
+        "precio": 500,
+        "id": 1,
+        "title": "Café",
+        "thumbnailUrl": ""
+    },
+    {
+        "precio": 80,
+        "id": 2,
+        "title": "medialunas",
+        "thumbnailUrl": ""
+    },
+    {
+        "precio": 150,
+        "id": 3,
+        "title": "Chocolatada",
+        "thumbnailUrl": ""
+    },
+    {
+        "precio": 150,
+        "id": 4,
+        "title": "Té",
+        "thumbnailUrl": "https://picsum.photos/id/30/600"
+    },
+    {
+        "precio": 300,
+        "id": 5,
+        "title": "Capuchino",
+        "thumbnailUrl": ""
+    },
+    {
+        "precio": 250,
+        "id": 6,
+        "title": "Lagrima",
+        "thumbnailUrl": ""
+    }
+]
