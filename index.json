@@ -1,38 +1,38 @@
 [
     {
-        "precio": 500,
+        "precio": 550,
         "id": 1,
         "title": "Café",
-        "thumbnailUrl": "/assets/img/cafe.png"
+        "thumbnailUrl": "./assets/img/cafe.png"
     },
     {
-        "precio": 80,
+        "precio": 150,
         "id": 2,
         "title": "Medialunas",
-        "thumbnailUrl": "/assets/img/medialunas.png"
+        "thumbnailUrl": "./assets/img/medialunas.png"
     },
     {
-        "precio": 150,
+        "precio": 680,
         "id": 3,
         "title": "Chocolatada",
-        "thumbnailUrl": "/assets/img/chocolatada.png"
+        "thumbnailUrl": "./assets/img/chocolatada.png"
     },
     {
-        "precio": 150,
+        "precio": 1150,
         "id": 4,
         "title": "Frapuchino",
-        "thumbnailUrl": "/assets/img/frapuchino.png"
+        "thumbnailUrl": "./assets/img/frapuchino.png"
     },
     {
-        "precio": 300,
+        "precio": 800,
         "id": 5,
         "title": "Capuchino",
-        "thumbnailUrl": "/assets/img/capuchino.png"
+        "thumbnailUrl": "./assets/img/capuchino.png"
     },
     {
-        "precio": 250,
+        "precio": 750,
         "id": 6,
         "title": "Lagrima",
-        "thumbnailUrl": "/assets/img/lagrima.png"
+        "thumbnailUrl": "./assets/img/lagrima.png"
     }
 ]
