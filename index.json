@@ -3,36 +3,36 @@
         "precio": 500,
         "id": 1,
         "title": "Café",
-        "thumbnailUrl": ""
+        "thumbnailUrl": "/assets/img/cafe.png"
     },
     {
         "precio": 80,
         "id": 2,
-        "title": "medialunas",
-        "thumbnailUrl": ""
+        "title": "Medialunas",
+        "thumbnailUrl": "/assets/img/medialunas.png"
     },
     {
         "precio": 150,
         "id": 3,
         "title": "Chocolatada",
-        "thumbnailUrl": ""
+        "thumbnailUrl": "/assets/img/chocolatada.png"
     },
     {
         "precio": 150,
         "id": 4,
-        "title": "Té",
-        "thumbnailUrl": "https://picsum.photos/id/30/600"
+        "title": "Frapuchino",
+        "thumbnailUrl": "/assets/img/frapuchino.png"
     },
     {
         "precio": 300,
         "id": 5,
         "title": "Capuchino",
-        "thumbnailUrl": ""
+        "thumbnailUrl": "/assets/img/capuchino.png"
     },
     {
         "precio": 250,
         "id": 6,
         "title": "Lagrima",
-        "thumbnailUrl": ""
+        "thumbnailUrl": "/assets/img/lagrima.png"
     }
 ]
